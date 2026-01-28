@@ -11,7 +11,10 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
-        //
+        // Đăng ký alias cho Middleware xác minh tuổi
+        $middleware->alias([
+            'check.age' => \App\Http\Middleware\CheckAge::class,
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //

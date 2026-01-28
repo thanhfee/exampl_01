@@ -27,14 +27,32 @@
             border-radius: 8px;
             box-shadow: 0 4px 6px rgba(0,0,0,0.1);
         }
-        h2 { color: #0984e3; }
+        .auth-bar {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .btn-auth {
+            padding: 8px 16px;
+            border-radius: 4px;
+            font-size: 14px;
+            transition: 0.3s;
+        }
+        .btn-login { background: #0984e3; color: white !important; }
+        .btn-register { background: #636e72; color: white !important; }
+        .btn-dashboard { background: #27ae60; color: white !important; }
+        
+        h2 { color: #0984e3; border-bottom: 2px solid #eee; padding-bottom: 10px; }
         ul { list-style: none; padding: 0; }
         li {
             margin-bottom: 10px;
-            padding: 10px;
+            padding: 12px;
             background: #dfe6e9;
             border-radius: 4px;
+            transition: transform 0.2s;
         }
+        li:hover { transform: translateX(5px); }
         a {
             text-decoration: none;
             color: #d63031;
@@ -46,6 +64,8 @@
             margin-top: 20px;
             padding-top: 10px;
             font-style: italic;
+            display: flex;
+            justify-content: space-between;
         }
     </style>
 </head>
@@ -56,6 +76,25 @@
 </header>
 
 <div class="container">
+    <div class="auth-bar">
+        @if (Route::has('login'))
+            @auth
+                <span>Chào, <strong>{{ Auth::user()->name }}</strong></span>
+                <a href="{{ url('/dashboard') }}" class="btn-auth btn-dashboard">Vào Dashboard</a>
+                <form method="POST" action="{{ route('logout') }}" style="display:inline">
+                    @csrf
+                    <a href="{{ route('logout') }}" class="btn-auth" style="color: #636e72" 
+                       onclick="event.preventDefault(); this.closest('form').submit();">Đăng xuất</a>
+                </form>
+            @else
+                <a href="{{ route('login') }}" class="btn-auth btn-login">Đăng nhập</a>
+                @if (Route::has('register'))
+                    <a href="{{ route('register') }}" class="btn-auth btn-register">Đăng ký</a>
+                @endif
+            @endauth
+        @endif
+    </div>
+
     <h2>Danh mục chức năng</h2>
     <ul>
         <li>🚀 <a href="{{ route('product.index') }}">Quản lý Sản phẩm</a> (Xem danh sách & Thêm mới)</li>
@@ -65,8 +104,8 @@
     </ul>
 
     <div class="info">
-        <p>Sinh viên thực hiện: <strong>Phí Văn Thành</strong></p>
-        <p>Mã số sinh viên: <strong>0149167</strong></p>
+        <p>Sinh viên: <strong>Phí Văn Thành</strong></p>
+        <p>MSSV: <strong>0149167</strong></p>
     </div>
 </div>
 
