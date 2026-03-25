@@ -12,10 +12,20 @@ class Product extends Model
     /**
      * Các thuộc tính có thể gán dữ liệu hàng loạt.
      */
-    protected $fillable = [
-        'name',
-        'price',
-        'description',
-        'image',
-    ]; // Dòng này phải nằm TRONG dấu ngoặc nhọn của class
+    // app/Models/Product.php
+protected $fillable = [
+    'name', 
+    'category_id', // Thêm dòng này
+    'price', 
+    'sale_price', 
+    'stock', 
+    'image', 
+    'description',
+    'is_active',
+    'is_delete'
+];
+
+public function category() {
+    return $this->belongsTo(Category::class);
+}
 }
